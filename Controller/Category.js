@@ -1,11 +1,11 @@
 import { validator } from "../Validator/Cat.validator.js";
-import category from "../Model/Category.js";
+import Category from "../Model/Category.js";
 
 export const Get = async (req, res) => {
   try {
-    const getCategory = await category
+    const getCategory = await Category
       .find()
-      .populate("userId", "fullName, email");
+      .populate("userId", "fullName email");
     res.json(getCategory);
   } catch (error) {
     res.status(500).json({
@@ -17,7 +17,7 @@ export const Get = async (req, res) => {
 export const getOneCategory = async (req, res) => {
   const { id } = req.params;
   try {
-    const getOneCategory = await category.findById(id);
+    const getOneCategory = await Category.findById(id);
     if (!getOneCategory) {
       return res.status(404).json({
         message: "category not found",
@@ -39,8 +39,8 @@ export const POST = async (req, res) => {
     });
   }
   try {
-    const Category = new category(req.body);
-    const newCategory = await Category.save();
+    const category = new Category(req.body);
+    const newCategory = await category.save();
     res.status(201).json(newCategory);
   } catch (error) {
     res.status(500).json({
@@ -58,7 +58,7 @@ export const PUT = async (req, res) => {
     });
   }
   try {
-    const updatingCat = await category.findByIdAndUpdate(id, req.body, {
+    const updatingCat = await Category.findByIdAndUpdate(id, req.body, {
       new: true,
     });
     if (!updatingCat) {
@@ -75,10 +75,10 @@ export const PUT = async (req, res) => {
 };
 
 export const DELETE = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
 
   try {
-    const deletingCat = await category.findByIdAndDelete(id);
+    const deletingCat = await Category.findByIdAndDelete(id);
     if (!deletingCat) {
       return res.status(404).json({
         message: "User not found",

@@ -16,8 +16,10 @@ type: {
 },
 userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "userSchema",
+    ref: "User",
      required: true
 }
 },{ timestamps: true })
-export default mongoose.model("cartMode", catModel);
+const Category = mongoose.model("Category", catModel);
+
+export default Category;
